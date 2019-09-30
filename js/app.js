@@ -1,38 +1,58 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    var GameBoard = document.querySelector("#board");
 
     function GameOfLife(boardWidth, boardHeight) {
-        this.width = boardWidth,
+            this.width = boardWidth,
             this.height = boardHeight,
-            this.board = GameBoard,
+            this.board = document.querySelector("#board"),
             this.cells = [],
             this.createBoard = function () {
                 this.board.style.width = this.width * 10 + "px";
                 this.board.style.height = this.height * 10 + "px";
-                var allPlace = boardHeight * boardWidth;
-                for (var i = 0; i < allPlace; i++) {
-                    var cell = document.createElement("div");
+                let allPlace = boardHeight * boardWidth;
+                for (let i = 0; i < allPlace; i++) {
+                    let cell = document.createElement("div");
                     this.cells.push(cell)
                     this.board.appendChild(cell);
                 }
                 this.cells.forEach(function (target) {
                     target.addEventListener("click", function () {
-                       target.classList.toggle("live");
-                        console.log("hello")
+                        target.classList.toggle("live");
                     })
                 })
-            }
-            this.calculateNeighbour=function (x,y) {
 
-                
             }
+
+        this.calculateNeighbour = ()=> {
+            this.cells.forEach( (value, index)=> {
+                console.log(value)
+                let neighboursCounter = 0;
+                for (let i = 0; i < 8; i++) {
+                    let neighbours = [index - 1, index + 1, index + this.width, index - this.width, index + 1 + this.width, index - 1 + this.width, index + 1 - this.width, index - 1 - this.width];
+                    if ([neighbours[i]]>0 && [neighbours[i]]<this.cells.length) {
+                        if (game.cells[neighbours[i]].classList.contains("live")) {
+                            neighboursCounter++
+
+                        }
+                    }
+                    if (neighboursCounter < 2 || neighboursCounter > 3) {
+                        value.classList.remove("live")
+                    }
+                    if (neighboursCounter === 3) {
+                        value.classList.add("live")
+                    }
+                }
+
+            })
+
+
+        }
     }
 
 
-    var game = new GameOfLife(50, 50);
+    let game = new GameOfLife(10, 10);
     game.createBoard();
-    console.log(game.cells)
+    document.querySelector("#play").addEventListener("click", game.calculateNeighbour)
 
 
 })
