@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function GameOfLife(boardWidth, boardHeight) {
-            this.width = boardWidth,
+        this.width = boardWidth,
             this.height = boardHeight,
             this.board = document.querySelector("#board"),
             this.cells = [],
@@ -19,40 +19,69 @@ document.addEventListener("DOMContentLoaded", function () {
                     target.addEventListener("click", function () {
                         target.classList.toggle("live");
                     })
-                })
+                });
+                this.setButtonEvents()
+            };
 
-            }
-
-        this.calculateNeighbour = ()=> {
-            this.cells.forEach( (value, index)=> {
-                console.log(value)
+        this.calculateNeighbour = () => {
+            let nextGenCellsDead = [];
+            let nextGenCellsAlive = [];
+            this.cells.forEach((value, index) => {
                 let neighboursCounter = 0;
                 for (let i = 0; i < 8; i++) {
                     let neighbours = [index - 1, index + 1, index + this.width, index - this.width, index + 1 + this.width, index - 1 + this.width, index + 1 - this.width, index - 1 - this.width];
-                    if ([neighbours[i]]>0 && [neighbours[i]]<this.cells.length) {
-                        if (game.cells[neighbours[i]].classList.contains("live")) {
+                    if ([neighbours[i]] > 0 && [neighbours[i]] < this.cells.length) {
+                        if (this.cells[neighbours[i]].classList.contains("live")) {
                             neighboursCounter++
-
                         }
                     }
                     if (neighboursCounter < 2 || neighboursCounter > 3) {
-                        value.classList.remove("live")
+                        nextGenCellsDead.push(value)
                     }
                     if (neighboursCounter === 3) {
-                        value.classList.add("live")
+                        nextGenCellsAlive.push(value)
                     }
                 }
 
-            })
+            });
+            this.newGeneration(nextGenCellsAlive,nextGenCellsDead)
+        };
+
+        this.newGeneration = function (nextGenCellAlive,nextGenCellsDead) {
+            nextGenCellAlive.forEach((e) => {
+                if (!e.classList.contains("live")) {
+                    e.classList.add("live")
+                }
+            });
+            nextGenCellsDead.forEach((e) => {
+                if (e.classList.contains("live")) {
+                    e.classList.remove("live");
+                }
+            });
+            console.log(nextGenCellsDead)
+console.log(nextGenCellAlive)
+        };
 
 
-        }
+        this.start = () => {
+            this.interval = setInterval(() => {
+                this.calculateNeighbour();
+            }, 1);
+        };
+
+        this.pause = () => {
+            clearInterval(this.interval)
+        };
+
+        this.setButtonEvents = () => {
+            document.querySelector("#play").addEventListener('click', this.start);
+            document.querySelector("#pause").addEventListener('click', this.pause)
+        };
     }
 
 
-    let game = new GameOfLife(10, 10);
+    let game = new GameOfLife(20, 20);
     game.createBoard();
-    document.querySelector("#play").addEventListener("click", game.calculateNeighbour)
 
 
 })
