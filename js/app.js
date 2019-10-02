@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
             this.nextGenCellsDead=[],
             this.nextGenCellsAlive=[],
         this.createBoard = function () {
-                this.board.style.width = this.width + "px";
-                this.board.style.height = this.height  + "px";
+                this.board.style.width = this.width * 10 + "px";
+                this.board.style.height = this.height * 10 + "px";
                 let allPlace = boardHeight * boardWidth;
                 for (let i = 0; i < allPlace; i++) {
                     let cell = document.createElement("div");
