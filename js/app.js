@@ -6,9 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
             this.height = boardHeight,
             this.board = document.querySelector("#board"),
             this.cells = [],
-            this.createBoard = function () {
-                this.board.style.width = this.width * 10 + "px";
-                this.board.style.height = this.height * 10 + "px";
+            this.nextGenCellsDead=[],
+            this.nextGenCellsAlive=[],
+        this.createBoard = function () {
+                this.board.style.width = this.width + "px";
+                this.board.style.height = this.height  + "px";
                 let allPlace = boardHeight * boardWidth;
                 for (let i = 0; i < allPlace; i++) {
                     let cell = document.createElement("div");
@@ -24,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
         this.calculateNeighbour = () => {
-            let nextGenCellsDead = [];
-            let nextGenCellsAlive = [];
+            this.nextGenCellsAlive =[];
+            this.nextGenCellsDead=[];
             this.cells.forEach((value, index) => {
                 let neighboursCounter = 0;
                 for (let i = 0; i < 8; i++) {
@@ -35,31 +37,31 @@ document.addEventListener("DOMContentLoaded", function () {
                             neighboursCounter++
                         }
                     }
-                    if (neighboursCounter < 2 || neighboursCounter > 3) {
-                        nextGenCellsDead.push(value)
+                    if (neighboursCounter !== 3 ) {
+                        this.nextGenCellsDead.push(value)
                     }
                     if (neighboursCounter === 3) {
-                        nextGenCellsAlive.push(value)
+                        this.nextGenCellsAlive.push(value)
                     }
                 }
 
             });
-            this.newGeneration(nextGenCellsAlive,nextGenCellsDead)
+            this.nextGenCellsAlive
+            this.newGeneration(this.nextGenCellsAlive,this.nextGenCellsDead)
         };
 
         this.newGeneration = function (nextGenCellAlive,nextGenCellsDead) {
+            console.log(nextGenCellsDead, nextGenCellAlive)
             nextGenCellAlive.forEach((e) => {
                 if (!e.classList.contains("live")) {
-                    e.classList.add("live")
+                    //e.classList.add("live")
                 }
             });
             nextGenCellsDead.forEach((e) => {
                 if (e.classList.contains("live")) {
-                    e.classList.remove("live");
+                   //e.classList.remove("live");
                 }
             });
-            console.log(nextGenCellsDead)
-console.log(nextGenCellAlive)
         };
 
 
@@ -74,13 +76,13 @@ console.log(nextGenCellAlive)
         };
 
         this.setButtonEvents = () => {
-            document.querySelector("#play").addEventListener('click', this.start);
+            document.querySelector("#play").addEventListener('click', this.calculateNeighbour);
             document.querySelector("#pause").addEventListener('click', this.pause)
         };
     }
 
 
-    let game = new GameOfLife(20, 20);
+    let game = new GameOfLife(10, 10);
     game.createBoard();
 
 
