@@ -37,23 +37,19 @@ document.addEventListener("DOMContentLoaded", function () {
                             neighboursCounter++
                         }
                     }
-                    if (neighboursCounter >3 || neighboursCounter<3) {
-                        this.nextGenCellsDead.push(value)
-                    }
 
-                    if (neighboursCounter === 3) {
-                        this.nextGenCellsAlive.push(value)
-                    }
-
+                }
+                if (neighboursCounter === 3) {
+                    this.nextGenCellsAlive.push(value)
+                }
+                if (neighboursCounter !==3) {
+                    this.nextGenCellsDead.push(value)
                 }
 
             });
 
-            this.nextGenCellsAlive=[...new Set(this.nextGenCellsAlive)]
+           this.nextGenCellsAlive=[...new Set(this.nextGenCellsAlive)]
             this.nextGenCellsDead=[...new Set(this.nextGenCellsDead)]
-            this.nextGenCellsDead =  this.nextGenCellsDead.filter(function(element) {
-                return this.nextGenCellsAlive.indexOf(element) === -1;
-            });
             this.newGeneration(this.nextGenCellsAlive,this.nextGenCellsDead)
         };
 
@@ -66,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             nextGenCellsDead.forEach((e) => {
                 if (e.classList.contains("live")) {
-                   //e.classList.remove("live");
+                   e.classList.remove("live");
                 }
             });
         };
@@ -75,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         this.start = () => {
             this.interval = setInterval(() => {
                 this.calculateNeighbour();
-            }, 1);
+            }, 500);
         };
 
         this.pause = () => {
@@ -83,13 +79,13 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         this.setButtonEvents = () => {
-            document.querySelector("#play").addEventListener('click', this.calculateNeighbour);
+            document.querySelector("#play").addEventListener('click', this.start);
             document.querySelector("#pause").addEventListener('click', this.pause)
         };
     }
 
 
-    let game = new GameOfLife(10, 10);
+    let game = new GameOfLife(20, 20);
     game.createBoard();
 
 
