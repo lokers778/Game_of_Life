@@ -37,16 +37,23 @@ document.addEventListener("DOMContentLoaded", function () {
                             neighboursCounter++
                         }
                     }
-                    if (neighboursCounter !== 3 ) {
+                    if (neighboursCounter >3 || neighboursCounter<3) {
                         this.nextGenCellsDead.push(value)
                     }
+
                     if (neighboursCounter === 3) {
                         this.nextGenCellsAlive.push(value)
                     }
+
                 }
 
             });
-            this.nextGenCellsAlive
+
+            this.nextGenCellsAlive=[...new Set(this.nextGenCellsAlive)]
+            this.nextGenCellsDead=[...new Set(this.nextGenCellsDead)]
+            this.nextGenCellsDead =  this.nextGenCellsDead.filter(function(element) {
+                return this.nextGenCellsAlive.indexOf(element) === -1;
+            });
             this.newGeneration(this.nextGenCellsAlive,this.nextGenCellsDead)
         };
 
@@ -54,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(nextGenCellsDead, nextGenCellAlive)
             nextGenCellAlive.forEach((e) => {
                 if (!e.classList.contains("live")) {
-                    //e.classList.add("live")
+                    e.classList.add("live")
                 }
             });
             nextGenCellsDead.forEach((e) => {
