@@ -1,33 +1,33 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-
+   let buttons = document.querySelectorAll("li button")
     function GameOfLife(boardWidth, boardHeight) {
         this.width = boardWidth,
             this.height = boardHeight,
             this.board = document.querySelector("#board"),
             this.cells = [],
-            this.nextGenCellsDead=[],
-            this.nextGenCellsAlive=[],
+            this.nextGenCellsDead = [],
+            this.nextGenCellsAlive = [],
         this.createBoard = function () {
-                this.board.style.width = this.width * 10 + "px";
-                this.board.style.height = this.height * 10 + "px";
-                let allPlace = boardHeight * boardWidth;
-                for (let i = 0; i < allPlace; i++) {
-                    let cell = document.createElement("div");
-                    this.cells.push(cell)
-                    this.board.appendChild(cell);
-                }
-                this.cells.forEach(function (target) {
-                    target.addEventListener("click", function () {
-                        target.classList.toggle("live");
-                    })
-                });
-                this.setButtonEvents()
-            };
+            this.board.style.width = this.width * 10 + "px";
+            this.board.style.height = this.height * 10 + "px";
+            let allPlace = boardHeight * boardWidth;
+            for (let i = 0; i < allPlace; i++) {
+                let cell = document.createElement("div");
+                this.cells.push(cell)
+                this.board.appendChild(cell);
+            }
+            this.cells.forEach(function (target) {
+                target.addEventListener("click", function () {
+                    target.classList.toggle("live");
+                })
+            });
+            this.setButtonEvents()
+        };
 
         this.calculateNeighbour = () => {
-            this.nextGenCellsAlive =[];
-            this.nextGenCellsDead=[];
+            this.nextGenCellsAlive = [];
+            this.nextGenCellsDead = [];
             this.cells.forEach((value, index) => {
                 let neighboursCounter = 0;
                 for (let i = 0; i < 8; i++) {
@@ -42,18 +42,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (neighboursCounter === 3) {
                     this.nextGenCellsAlive.push(value)
                 }
-                if (neighboursCounter !==3) {
+                if (neighboursCounter !== 3) {
                     this.nextGenCellsDead.push(value)
                 }
 
             });
 
-           this.nextGenCellsAlive=[...new Set(this.nextGenCellsAlive)]
-            this.nextGenCellsDead=[...new Set(this.nextGenCellsDead)]
-            this.newGeneration(this.nextGenCellsAlive,this.nextGenCellsDead)
+            this.nextGenCellsAlive = [...new Set(this.nextGenCellsAlive)]
+            this.nextGenCellsDead = [...new Set(this.nextGenCellsDead)]
+            this.newGeneration(this.nextGenCellsAlive, this.nextGenCellsDead)
         };
 
-        this.newGeneration = function (nextGenCellAlive,nextGenCellsDead) {
+        this.newGeneration = function (nextGenCellAlive, nextGenCellsDead) {
             console.log(nextGenCellsDead, nextGenCellAlive)
             nextGenCellAlive.forEach((e) => {
                 if (!e.classList.contains("live")) {
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             nextGenCellsDead.forEach((e) => {
                 if (e.classList.contains("live")) {
-                   e.classList.remove("live");
+                    e.classList.remove("live");
                 }
             });
         };
@@ -85,8 +85,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    let game = new GameOfLife(20, 20);
-    game.createBoard();
+    function GameStart() {
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+                document.querySelector("#welcome-page").style.display = "none"
+                document.querySelector(".flex-container").style.display = "block"
+                return new GameOfLife(200, 200)
+
+            })
+        })
+    }
+     let game = GameStart()
+
 
 
 })
