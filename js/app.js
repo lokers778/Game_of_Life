@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-
    let buttons = document.querySelectorAll("li button")
     function GameOfLife(boardWidth, boardHeight) {
         this.width = boardWidth,
@@ -33,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 for (let i = 0; i < 8; i++) {
                     let neighbours = [index - 1, index + 1, index + this.width, index - this.width, index + 1 + this.width, index - 1 + this.width, index + 1 - this.width, index - 1 - this.width];
                     if ([neighbours[i]] > 0 && [neighbours[i]] < this.cells.length) {
+                        console.log(this.cells)
                         if (this.cells[neighbours[i]].classList.contains("live")) {
                             neighboursCounter++
                         }
@@ -90,12 +90,12 @@ document.addEventListener("DOMContentLoaded", function () {
             button.addEventListener("click", () => {
                 document.querySelector("#welcome-page").style.display = "none"
                 document.querySelector(".flex-container").style.display = "block"
-                return new GameOfLife(200, 200)
-
+                let game =new GameOfLife(button.dataset.id,button.dataset.id)
+                game.createBoard()
             })
         })
     }
-     let game = GameStart()
+    GameStart()
 
 
 
