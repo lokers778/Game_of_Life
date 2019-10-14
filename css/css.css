@@ -5,22 +5,23 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: snow;
+    background-color: gray;
 }
-.flex-container{
+
+.flex-container {
     display: none;
 }
 
 #board div {
     width: 10px;
     height: 10px;
-    border: 1px solid #cccccc;
-    background-color: #ffffff;
+    border: 1px solid grey;
+    background-color: white;
     float: left;
 }
 
 #board div.live {
-    background-color: #000000;
+    background-color: darkorange;
 }
 
 #board {
@@ -33,21 +34,37 @@ body {
     margin: 50px auto;
     width: auto;
 }
-#welcome-page{
-    width:100%;
-   height: 100vh;
+
+#welcome-page {
+    width: 100%;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
-li{
+
+li {
     list-style-type: none;
     display: inline-block;
     margin: 0 10px;
 }
-#game-set{
+
+#game-set {
     display: flex;
     justify-content: center;
-    margin:10px auto;
+    margin: 10px auto;
+}
+
+ button {
+    color: white;
+    background-color: orange;
+    border: none;
+    width: 6vw;
+    height: 5vw;
+    font-size: 15px;
+}
+
+#welcome-page button:hover{
+    background-color: darkorange;
 }
