@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
    let buttons = document.querySelectorAll("li button")
     function GameOfLife(boardWidth, boardHeight) {
-        this.width = boardWidth,
+       this.width = boardWidth,
             this.height = boardHeight,
             this.board = document.querySelector("#board"),
             this.cells = [],
@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 for (let i = 0; i < 8; i++) {
                     let neighbours = [index - 1, index + 1, index + this.width, index - this.width, index + 1 + this.width, index - 1 + this.width, index + 1 - this.width, index - 1 - this.width];
                     if ([neighbours[i]] > 0 && [neighbours[i]] < this.cells.length) {
-                        console.log(this.cells)
                         if (this.cells[neighbours[i]].classList.contains("live")) {
                             neighboursCounter++
                         }
@@ -54,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         this.newGeneration = function (nextGenCellAlive, nextGenCellsDead) {
-            console.log(nextGenCellsDead, nextGenCellAlive)
             nextGenCellAlive.forEach((e) => {
                 if (!e.classList.contains("live")) {
                     e.classList.add("live")
@@ -84,18 +82,22 @@ document.addEventListener("DOMContentLoaded", function () {
         };
     }
 
+   const GameStart=() => {
 
-    function GameStart() {
         buttons.forEach((button) => {
             button.addEventListener("click", () => {
                 document.querySelector("#welcome-page").style.display = "none"
                 document.querySelector(".flex-container").style.display = "block"
-                let game =new GameOfLife(button.dataset.id,button.dataset.id)
+          let game =new GameOfLife(Number(button.dataset.id),Number(button.dataset.id))
+
                 game.createBoard()
             })
+
         })
     }
-    GameStart()
+    GameStart();
+
+
 
 
 
